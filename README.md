@@ -1,62 +1,82 @@
-# Speech to Text Web App
+# SpeakEasy - Real-time Speech-to-Text Web Application
 
-A clean, responsive web application that converts speech to text.  
-It supports multiple **Arabic dialects**, as well as **English** and **German**, with real-time transcription and dynamic layout adjustments based on the selected language.
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Author](https://img.shields.io/badge/Author-Salem%20Helwani-blue)](https://salemhelwani.com) [![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](https://github.com/your-username/your-repo-name/issues) **SpeakEasy** is a simple, responsive, and user-friendly web application that converts spoken words into text in real-time. Leveraging the browser's built-in Web Speech API, SpeakEasy supports a wide range of languages and Arabic dialects, automatically adapting the text direction and font for optimal readability.
 
----
+## ✨ Key Features
 
-## 🧠 Features
+- **Real-time Transcription:** See your speech converted to text as you speak.
+- **Multi-Language Support:** Includes English (US & UK), German, and various Arabic dialects (Saudi Arabia/MSA, Egypt, Palestine, Iraq, Jordan, Lebanon, Algeria, Morocco, Tunisia).
+- **Automatic Language Adaptation:** Intelligent detection and application of right-to-left (RTL) text direction and appropriate fonts for Arabic languages.
+- **Clean and Intuitive Interface:** A distraction-free design focused on ease of use.
+- **Responsive Layout:** Works seamlessly on desktops, tablets, and mobile devices.
+- **Easy Language Selection:** A clear dropdown menu to choose your desired language or dialect.
+- **Simple Controls:** Start, stop, and clear transcription with intuitive button actions.
+- **Selectable Text Output:** Easily select and copy the transcribed text.
 
-- 🎤 Real-time speech recognition
-- 🌍 Support for Arabic dialects, English, and German
-- ↔️ Automatic text direction (RTL/LTR) based on language
-- 🅰️ Dynamic font switching for better readability
-- 🧹 Clear previous transcription with one click
-- 📱 Responsive design for mobile and desktop
+## 🚀 Getting Started
 
----
+You can start using SpeakEasy directly in your web browser! No installation is required.
 
-## 📦 Technologies
+1.  **Open the `index.html` file** in any modern web browser that supports the Web Speech API (Chrome, Edge, Safari, Firefox).
 
-- **HTML5**
-- **CSS3**
-- **JavaScript (ES6)**
-- **Web Speech API**
+## 🛠️ Development
 
----
+If you'd like to contribute to SpeakEasy or run it locally for development:
 
-## 🚀 How to Use
+1.  **Clone the repository:**
 
-1. Open the app in a modern browser (Chrome recommended).
-2. Choose a **language or dialect** from the dropdown.
-3. Click `🎤 Start Listening` to begin speech recognition.
-4. Click `🛑 Stop Listening` to end the session.
-5. Use `🧹 Clear Text` to remove previous transcription.
+    ```bash
+    git clone [https://github.com/salimov333/speakEasy.git](https://github.com/salimov333/speakEasy.git)
+    cd speakEasy
+    ```
 
----
+2.  **Open `index.html` in your web browser.**
 
-## 📸 Screenshots
+## ⚙️ Technologies Used
 
-> _Coming soon..._
+- **HTML:** For the structure and content of the web application.
+- **CSS:** For the styling and responsive design.
+- **JavaScript:** For the core functionality, including interacting with the Web Speech API and handling UI updates.
+- **Web Speech API:** A browser-based API for speech recognition.
+- **Google Fonts:** For providing the "Amiri", "Cairo", and "Roboto" fonts to support different languages.
 
----
+## 🌐 Browser Support
 
-## 🌐 Browser Compatibility
+SpeakEasy relies on the **Web Speech API**, which has varying levels of support across different browsers. It is primarily well-supported in:
 
-- ✅ Chrome (Best supported)
-- ⚠️ Firefox (Limited support)
-- ❌ Safari / Edge: Partial or no support
+- **Google Chrome** (Desktop and Android)
+- **Microsoft Edge**
+- **Safari** (macOS and iOS)
 
----
+Firefox has limited support behind a flag. Please check your browser's compatibility for the best experience.
+
+## 🤝 Contributing
+
+Contributions are welcome! If you have suggestions, bug reports, or would like to add new features, please feel free to:
+
+1.  **Fork the repository.**
+2.  **Create a new branch** for your feature or fix.
+3.  **Make your changes.**
+4.  **Commit your changes** with clear and concise commit messages.
+5.  **Push your branch** to your forked repository.
+6.  **Submit a pull request.**
+
+Please follow standard best practices for pull requests.
+
+## 📜 License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for more details.
 
 ## ✍️ Author
 
-**Salem Helwani**  
-Web Developer based in Leipzig, Germany  
-[LinkedIn](https://www.linkedin.com/in/salem-helwani/) • [GitHub](https://github.com/salimov333)
+**Salem Helwani**
+
+## 🙏 Acknowledgements
+
+- The developers of the **Web Speech API** for providing this powerful browser capability.
+- **Google Fonts** for their excellent font library.
 
 ---
 
-## 📄 License
-
-This project is open-source and available under the `MIT License`.
+**Enjoy transcribing your thoughts with SpeakEasy!**
