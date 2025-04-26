@@ -1,7 +1,7 @@
 # SpeakEasy - Real-time Speech-to-Text Web Application
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Author](https://img.shields.io/badge/Author-Salem%20Helwani-blue)](https://salemhelwani.com) [![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](https://github.com/your-username/your-repo-name/issues) **SpeakEasy** is a simple, responsive, and user-friendly web application that converts spoken words into text in real-time. Leveraging the browser's built-in Web Speech API, SpeakEasy supports a wide range of languages and Arabic dialects, automatically adapting the text direction and font for optimal readability.
+[![Author](https://img.shields.io/badge/Author-Salem%20Helwani-blue)](https://github.com/salimov333/) [![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](https://github.com/salimov333/speakEasy/issues) **SpeakEasy** is a simple, responsive, and user-friendly web application that converts spoken words into text in real-time. Leveraging the browser's built-in Web Speech API, SpeakEasy supports a wide range of languages and Arabic dialects, automatically adapting the text direction and font for optimal readability.
 
 ## ✨ Key Features
 
