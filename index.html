@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Speech to Text App is a simple and responsive web app that converts speech to text using the Web Speech API. It supports multiple Arabic dialects as well as English and German, with real-time transcription, language selection, and smart direction and font switching based on the chosen language."
+    />
+    <meta name="author" content="Salem Helwani" />
+    <meta
+      name="keywords"
+      content="Speech, Text, Arabic, Dialects, Web Speech API"
+    />
+    <title>Speech to Text (Arabic Dialects)</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri&family=Cairo&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f7f7f7;
+        text-align: center;
+        padding: 30px;
+        color: #333;
+      }
+
+      h1 {
+        color: #4a90e2;
+        font-size: 2.5em;
+        margin-bottom: 30px;
+      }
+
+      /* Dropdown menu */
+      select {
+        padding: 12px;
+        font-size: 16px;
+        margin: 10px 0;
+        width: 250px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        background-color: #ffffff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Buttons */
+      button {
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        margin: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      button:hover {
+        background-color: #357ab7;
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(2px);
+      }
+
+      button:focus {
+        outline: none;
+      }
+
+      /* Result and Status */
+      #result {
+        margin-top: 20px;
+        font-size: 1.2em;
+        min-height: 100px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        color: #555;
+      }
+
+      #status {
+        font-size: 1.1em;
+        margin-top: 10px;
+        color: #4a90e2;
+      }
+
+      /* Container for buttons and select dropdown */
+      .controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .controls button {
+        margin: 5px;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        select {
+          width: 80%;
+        }
+
+        button {
+          width: 80%;
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 2em;
+        }
+
+        select,
+        button {
+          width: 100%;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Speech to Text</h1>
+
+    <div class="controls">
+      <label for="langSelect">Choose Language or Dialect:</label>
+      <select id="langSelect">
+        <option value="en-US">English - United States</option>
+        <option value="en-GB">English - United Kingdom</option>
+        <option value="de-DE">German - Germany</option>
+        <option value="ar-SA">
+          Arabic - Saudi Arabia (recommended for MSA)
+        </option>
+        <option value="ar-EG">Arabic - Egypt</option>
+        <option value="ar-PS">Arabic - Palestine</option>
+        <option value="ar-IQ">Arabic - Iraq</option>
+        <option value="ar-JO">Arabic - Jordan</option>
+        <option value="ar-LB">Arabic - Lebanon</option>
+        <option value="ar-DZ">Arabic - Algeria</option>
+        <option value="ar-MA">Arabic - Morocco</option>
+        <option value="ar-TN">Arabic - Tunisia</option>
+      </select>
+
+      <button onclick="startRecognition()">🎤 Start Listening</button>
+      <button onclick="stopRecognition()">🛑 Stop Listening</button>
+      <button onclick="clearText()">🧹 Clear Text</button>
+    </div>
+
+    <div id="status">Status will appear here...</div>
+    <div id="result"></div>
+
+    <script>
+      const resultDiv = document.getElementById("result");
+      const statusDiv = document.getElementById("status");
+      const langSelect = document.getElementById("langSelect");
+
+      let recognition;
+      let isListening = false;
+
+      function initializeRecognition() {
+        const SpeechRecognition =
+          window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SpeechRecognition) {
+          alert("Web Speech API is not supported in this browser.");
+          return null;
+        }
+
+        const recog = new SpeechRecognition();
+        recog.lang = langSelect.value;
+        const langCode = langSelect.value.slice(0, 2);
+        if (langCode === "ar") {
+          resultDiv.dir = "rtl";
+          resultDiv.style.fontFamily = "'Cairo', 'Amiri', sans-serif"; // Set font for Arabic
+          resultDiv.style.textAlign = "justify"; // Justify text for better readability
+        } else {
+          resultDiv.dir = "ltr";
+          resultDiv.style.fontFamily = "'Segoe UI', 'Arial', sans-serif";
+          resultDiv.style.textAlign = "left"; // Align text to the left for other languages
+        }
+
+        recog.maxAlternatives = 1; // Set to 1 for single best result
+        recog.interimResults = false; // Set to true if you want interim results
+        recog.continuous = true; // Ensure continuous recognition
+
+        return recog;
+      }
+
+      function startRecognition() {
+        if (isListening) return;
+
+        recognition = initializeRecognition();
+        if (!recognition) return;
+
+        isListening = true;
+        statusDiv.textContent = "Listening...";
+
+        recognition.onresult = (event) => {
+          const transcript =
+            event.results[event.results.length - 1][0].transcript;
+          resultDiv.textContent += "\n" + transcript;
+        };
+
+        recognition.onerror = (event) => {
+          statusDiv.textContent = "Error: " + event.error;
+        };
+
+        recognition.onend = () => {
+          if (isListening) {
+            recognition.start(); // Restart if still listening
+          }
+        };
+
+        recognition.start();
+      }
+
+      function stopRecognition() {
+        if (!isListening) return;
+        isListening = false;
+        recognition.stop();
+        statusDiv.textContent = "Stopped listening.";
+      }
+
+      function clearText() {
+        resultDiv.textContent = ""; // Clear the displayed text
+        statusDiv.textContent = ""; // Optional: Reset status text if needed
+        // if (!isListening) {
+        //   startRecognition(); // Automatically restart recording if stopped
+        // }
+      }
+    </script>
+  </body>
+</html>
