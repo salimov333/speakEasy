@@ -11,7 +11,8 @@ let isListening = false;
 // Initial status
 document.addEventListener("DOMContentLoaded", () => {
     statusDiv.textContent = "Ready.";
-    updateClearButtonState();
+    clearButton.disabled = true;
+    resultDiv.contentEditable = "false"
 });
 
 // Initialize the SpeechRecognition API
@@ -57,13 +58,13 @@ function startRecognition() {
     isListening = true;
     resultDiv.contentEditable = "false";
 
-    // Update button state and animations
+    // Update buttons state and animations
     startButton.classList.add("listening");
     startButton.querySelector(".button-text").textContent = "Listening...";
     statusDiv.textContent = "Speak now – we're listening";
     startButton.disabled = true;
     stopButton.disabled = false;
-    updateClearButtonState();
+    clearButton.disabled = true;
 
     recognition.onresult = (event) => {
         const transcript =
@@ -94,7 +95,7 @@ function stopRecognition() {
     if (!isListening) return;
     isListening = false;
     recognition.stop();
-    resultDiv.contentEditable = "true";
+    resultDiv.contentEditable = resultDiv.textContent ? "true" : "false";
     resetButtonState();
 }
 
@@ -103,20 +104,13 @@ function resetButtonState() {
     startButton.querySelector(".button-text").textContent = "Speak";
     startButton.disabled = false;
     stopButton.disabled = true;
-    updateClearButtonState();
+    clearButton.disabled = resultDiv.textContent ? false : true;
 }
 
 function clearText() {
-    if (resultDiv.textContent === "") {
-        return;
-    };
     resultDiv.textContent = "";
-    resultDiv.contentEditable = isListening ? "false" : "true";
-
-}
-
-function updateClearButtonState() {
-    clearButton.disabled = resultDiv.textContent ? false : true;
+    clearButton.disabled = true;
+    resultDiv.contentEditable = "false";
 }
 // Event Listeners
 langSelect.addEventListener("change", () => {
@@ -124,7 +118,7 @@ langSelect.addEventListener("change", () => {
         initializeRecognition();
     } else if (isListening) {
         stopRecognition();
-        setTimeout(startRecognition, 500);
+        setTimeout(startRecognition, 100);
     } else {
         initializeRecognition();
     }
