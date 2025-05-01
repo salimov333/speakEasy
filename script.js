@@ -8,6 +8,9 @@ const clearButton = document.getElementById("clearButton");
 let recognition;
 let isListening = false;
 
+// Initialize ARIA live region
+statusDiv.setAttribute("aria-live", "polite");
+
 function initializeRecognition() {
     const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -22,10 +25,12 @@ function initializeRecognition() {
     const recog = new SpeechRecognition();
     recog.lang = langSelect.value;
     const langCode = langSelect.value.slice(0, 2);
+
+    // Set text direction and font based on language
     if (langCode === "ar") {
         resultDiv.dir = "rtl";
         resultDiv.style.fontFamily = "'Cairo', 'Amiri', sans-serif";
-        resultDiv.style.textAlign = "right"; // Align right for Arabic
+        resultDiv.style.textAlign = "right";
     } else {
         resultDiv.dir = "ltr";
         resultDiv.style.fontFamily = "'Roboto', sans-serif";
@@ -46,32 +51,33 @@ function startRecognition() {
     if (!recognition) return;
 
     isListening = true;
-    statusDiv.textContent = "Listening...";
+
+    // Update button state and animations
+    startButton.classList.add("listening");
+    startButton.querySelector(".button-text").textContent = "Listening...";
+    statusDiv.textContent = "Speak now – we're listening";
     startButton.disabled = true;
     stopButton.disabled = false;
 
     recognition.onresult = (event) => {
         const transcript =
             event.results[event.results.length - 1][0].transcript;
-        resultDiv.textContent += transcript + " "; // Add space for better readability
-        // Scroll to the bottom to keep the latest text in view
+        resultDiv.textContent += transcript + " ";
         resultDiv.scrollTop = resultDiv.scrollHeight;
     };
 
     recognition.onerror = (event) => {
         statusDiv.textContent = "Error: " + event.error;
         isListening = false;
-        startButton.disabled = false;
-        stopButton.disabled = true;
+        resetButtonState();
     };
 
     recognition.onend = () => {
         if (isListening) {
-            recognition.start(); // Restart if still listening
+            recognition.start();
         } else {
             statusDiv.textContent = "Ready.";
-            startButton.disabled = false;
-            stopButton.disabled = true;
+            resetButtonState();
         }
     };
 
@@ -81,23 +87,41 @@ function startRecognition() {
 function stopRecognition() {
     if (!isListening) return;
     isListening = false;
+
+    // Update button to processing state
+    startButton.querySelector(".button-text").textContent = "Processing...";
     recognition.stop();
-    statusDiv.textContent = "Stopped listening.";
+
+    // Return to default state after delay
+    setTimeout(() => {
+        startButton.classList.remove("listening");
+        startButton.querySelector(".button-text").textContent = "Speak";
+        statusDiv.textContent = "Ready.";
+    }, 2000);
+
+    startButton.disabled = false;
+    stopButton.disabled = true;
+}
+
+function resetButtonState() {
+    startButton.classList.remove("listening");
+    startButton.querySelector(".button-text").textContent = "Speak";
     startButton.disabled = false;
     stopButton.disabled = true;
 }
 
 function clearText() {
     resultDiv.textContent = "";
-    statusDiv.textContent = "";
+    statusDiv.textContent = "Ready.";
 }
 
+// Event Listeners
 langSelect.addEventListener("change", () => {
     if (recognition && !isListening) {
-        initializeRecognition(); // Re-initialize with the new language
+        initializeRecognition();
     } else if (isListening) {
         stopRecognition();
-        setTimeout(startRecognition, 500); // Restart with new language after a short delay
+        setTimeout(startRecognition, 500);
     } else {
         initializeRecognition();
     }
@@ -107,5 +131,5 @@ startButton.addEventListener("click", startRecognition);
 stopButton.addEventListener("click", stopRecognition);
 clearButton.addEventListener("click", clearText);
 
-// Initial status message
+// Initial status
 statusDiv.textContent = "Ready.";

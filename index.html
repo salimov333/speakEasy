@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="SpeakEasy is a simple and responsive web app that converts SpeakEasy using the Web Speech API. It supports multiple Arabic dialects as well as English and German, with real-time transcription, language selection, and smart direction and font switching based on the chosen language."
+      content="SpeakEasy is a simple and responsive web app that converts speech to text using the Web Speech API. It supports multiple Arabic dialects, English, and German with real-time transcription and smart formatting."
     />
     <meta name="author" content="Salem Helwani" />
     <meta
@@ -54,32 +54,53 @@
           <button
             id="startButton"
             class="listen-button"
-            title="Start Listening"
+            title="Tap to start speaking"
+            aria-label="Start speech recognition"
           >
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"
-              />
-            </svg>
-            <span>Listen</span>
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"
+                />
+              </svg>
+            </span>
+            <span class="button-text">Speak</span>
+            <div class="wave">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
           </button>
-          <button id="stopButton" disabled title="Stop Listening">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M6 6h12v12H6z" />
-            </svg>
-            <span>Stop</span>
+          <button
+            id="stopButton"
+            disabled
+            title="Stop Listening"
+            aria-label="Stop speech recognition"
+          >
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 6h12v12H6z" />
+              </svg>
+            </span>
+            <span class="button-text">Stop</span>
           </button>
-          <button id="clearButton" title="Clear Text">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-              />
-            </svg>
-            <span>Clear</span>
+          <button
+            id="clearButton"
+            title="Clear Text"
+            aria-label="Clear transcribed text"
+          >
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                />
+              </svg>
+            </span>
+            <span class="button-text">Clear</span>
           </button>
         </div>
 
-        <div id="status" class="status-message"></div>
+        <div id="status" class="status-message" aria-live="polite"></div>
       </section>
 
       <section class="result-container">
@@ -88,6 +109,7 @@
           class="result-text"
           tabindex="0"
           contenteditable="true"
+          aria-label="Speech recognition results"
         ></div>
       </section>
 
@@ -104,6 +126,5 @@
       </footer>
     </div>
     <script src="script.js"></script>
-
   </body>
 </html>
