@@ -72,7 +72,7 @@ This project is licensed under the **MIT License**. See the `LICENSE` file for m
 
 ## ✍️ Author
 
-**Salem Helwani**
+[Salem Helwani](https://github.com/salimov333)
 
 ## 🙏 Acknowledgements
 
