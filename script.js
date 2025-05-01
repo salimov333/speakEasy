@@ -8,9 +8,13 @@ const clearButton = document.getElementById("clearButton");
 let recognition;
 let isListening = false;
 
-// Initialize ARIA live region
-statusDiv.setAttribute("aria-live", "polite");
+// Initial status
+document.addEventListener("DOMContentLoaded", () => {
+    statusDiv.textContent = "Ready.";
+    updateClearButtonState();
+});
 
+// Initialize the SpeechRecognition API
 function initializeRecognition() {
     const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -51,6 +55,7 @@ function startRecognition() {
     if (!recognition) return;
 
     isListening = true;
+    resultDiv.contentEditable = "false";
 
     // Update button state and animations
     startButton.classList.add("listening");
@@ -58,6 +63,7 @@ function startRecognition() {
     statusDiv.textContent = "Speak now – we're listening";
     startButton.disabled = true;
     stopButton.disabled = false;
+    updateClearButtonState();
 
     recognition.onresult = (event) => {
         const transcript =
@@ -87,20 +93,9 @@ function startRecognition() {
 function stopRecognition() {
     if (!isListening) return;
     isListening = false;
-
-    // Update button to processing state
-    startButton.querySelector(".button-text").textContent = "Processing...";
     recognition.stop();
-
-    // Return to default state after delay
-    setTimeout(() => {
-        startButton.classList.remove("listening");
-        startButton.querySelector(".button-text").textContent = "Speak";
-        statusDiv.textContent = "Ready.";
-    }, 2000);
-
-    startButton.disabled = false;
-    stopButton.disabled = true;
+    resultDiv.contentEditable = "true";
+    resetButtonState();
 }
 
 function resetButtonState() {
@@ -108,13 +103,21 @@ function resetButtonState() {
     startButton.querySelector(".button-text").textContent = "Speak";
     startButton.disabled = false;
     stopButton.disabled = true;
+    updateClearButtonState();
 }
 
 function clearText() {
+    if (resultDiv.textContent === "") {
+        return;
+    };
     resultDiv.textContent = "";
-    statusDiv.textContent = "Ready.";
+    resultDiv.contentEditable = isListening ? "false" : "true";
+
 }
 
+function updateClearButtonState() {
+    clearButton.disabled = resultDiv.textContent ? false : true;
+}
 // Event Listeners
 langSelect.addEventListener("change", () => {
     if (recognition && !isListening) {
@@ -130,6 +133,3 @@ langSelect.addEventListener("change", () => {
 startButton.addEventListener("click", startRecognition);
 stopButton.addEventListener("click", stopRecognition);
 clearButton.addEventListener("click", clearText);
-
-// Initial status
-statusDiv.textContent = "Ready.";
